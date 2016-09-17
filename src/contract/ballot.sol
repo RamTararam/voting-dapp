@@ -18,33 +18,30 @@ contract owned {
 }
 
 contract Ballot is owned {
-    struct VoteCategory {
-        string name;
-    }
-
     struct Vote {
-        uint8 points;
+        uint8[5] points;
         address voter;
-        uint categoryID;
     }
 
     struct Project {
         string name;
+        uint8[5] points;
         Vote[] votes;
-        mapping (address => mapping (uint => bool)) voted;
-        mapping (address => mapping (uint => uint)) voteIDs;
+        mapping (address => bool) voted;
     }
 
     Project[] public projects;
     uint public projectsCount;
 
-    VoteCategory[] public voteCategories;
-    uint public voteCategoriesCount;
-
     event ProjectAdded(uint projectID, string name);
-    event Voted(uint projectID, uint8 points, uint voteCategory, address voter);
+    event Voted(uint projectID, uint8[5] points, address voter);
 
-    // Setting up ballot
+    mapping(address => string) fbIdByAddress;
+    mapping(string => address) addressByFbId;
+    function saveFacebookId(string fbID) {
+      fbIdByAddress[msg.sender] = fbID;
+      addressByFbId[fbID] = msg.sender;
+    }
 
     function addProject(string name) onlyOwner returns (uint projectID) {
         projectID = projects.length++;
@@ -54,68 +51,28 @@ contract Ballot is owned {
         ProjectAdded(projectID, name);
     }
 
-    function addVoteCategory(string name) onlyOwner returns (uint categoryID) {
-        categoryID = projects.length++;
-        VoteCategory c = voteCategories[categoryID];
-        c.name = name;
-        voteCategoriesCount = voteCategories.length;
-    }
-
-    // Vote action
-
-    function vote(uint projectID, uint voteCategory, uint8 points) returns (uint voteID) {
+    function vote(uint projectID, uint8[5] points) returns (uint voteID) {
         Project p = projects[projectID];
-        if (p.voted[msg.sender][voteCategory] == true) throw;
+        if (p.voted[msg.sender] == true) throw;
 
         voteID = p.votes.length++;
-        p.votes[voteID] = Vote({points: points, voter: msg.sender, categoryID: voteCategory});
-        p.voted[msg.sender][voteCategory] = true;
-        p.voteIDs[msg.sender][voteCategory] = voteID;
-        Voted(projectID, points, voteCategory, msg.sender);
-    }
+        Vote v = p.votes[voteID];
 
-    // Fetch data
-
-    function getVoteResult(uint projectID, uint voteCategory, address voter) returns (int16 points) {
-        Project p = projects[projectID];
-        if (p.voted[voter][voteCategory] == true) {
-            uint voteID = p.voteIDs[voter][voteCategory];
-            Vote vote = p.votes[voteID];
-            points = vote.points;
-        } else {
-            points = -1;
+        for (var i = 0; i < 5; ++i) {
+            p.points[i] += points[i];
+            v.points[i] = points[i];
         }
+        p.voted[msg.sender] = true;
     }
 
-    function getVotesCount(uint projectID) returns (uint votesCount) {
+    function getVotesCount(uint projectID) constant returns (uint votesCount) {
         Project p = projects[projectID];
         votesCount = p.votes.length;
     }
 
-    function getCategoryPointsSum(uint projectID, uint categoryID) returns (uint points) {
-        points = 0;
+    function getPoints(uint projectID) constant returns (uint8[5] points) {
         Project p = projects[projectID];
-        for (uint i = 0; i < p.votes.length; i++) {
-            Vote vote = p.votes[i];
-            if (vote.categoryID == categoryID) {
-                points += vote.points;
-            }
-        }
-    }
-
-    function getCategoryVotesCount(uint projectID, uint categoryID) returns (uint count) {
-        count = 0;
-        Project p = projects[projectID];
-        for (uint i = 0; i < p.votes.length; i++) {
-            Vote vote = p.votes[i];
-            if (vote.categoryID == categoryID) {
-                count += 1;
-            }
-        }
-    }
-
-    function getVersion() returns (string version) {
-        version = "0.2";
+        points = p.points;
     }
 }
 
