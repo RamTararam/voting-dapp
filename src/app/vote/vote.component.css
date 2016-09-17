@@ -1,0 +1,6 @@
+md-spinner {
+  margin: 0 auto;
+}
+input[disabled] {
+  background: white;
+}

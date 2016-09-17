@@ -1,0 +1,21 @@
+md-card {
+  max-width: 420px;
+  margin: 0 auto;
+}
+md-spinner {
+  margin: 0 auto;
+}
+.welcome {
+  color: #666;
+}
+.address {
+  background-color: #f0f0f0;
+  padding: 2px 3px;
+  border-radius: 3px;
+  color: #009688;
+  font-size: 13px;
+}
+a[md-raised-button], a[md-button] {
+  color: inherit;
+  text-decoration: inherit;
+}

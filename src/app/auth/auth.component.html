@@ -1,0 +1,52 @@
+<md-card class="welcome text-center" *ngIf="!userId">
+  <h3>Welcome</h3>
+  <br>
+  <p *ngIf="accountId">
+    Seems like you already have an account with address <span class="address">{{ accountId }}</span>.<br>
+    You can <a routerLink="/vote">vote</a> using it.<br>
+    Anyway you can create another one.
+  </p>
+  <p *ngIf="!accountId">Please, sign in to create blockchain account</p>
+  <br>
+  <div class="fb-login-button"
+       data-size="xlarge"
+       data-show-faces="false"
+       data-auto-logout-link="false"
+       onlogin="loginCallback"
+  ></div>
+</md-card>
+
+<md-card *ngIf="userId && !completed">
+  <div *ngIf="loading">
+    <p>Creating an account. This will take a couple minutes... Please, be patient and don't close this page.</p>
+    <md-spinner *ngIf="loading"></md-spinner>
+  </div>
+  <form [hidden]="loading">
+    <div class="form-group">
+      <label>Passphrase</label>
+      <input type="password" class="form-control" #pass1>
+    </div>
+    <div class="form-group">
+      <label>Repeat passphrase</label>
+      <input type="password" class="form-control" #pass2>
+    </div>
+    <button md-raised-button color="primary" (click)="createAccount(pass1.value, pass2.value)">
+      CREATE ACCOUNT
+    </button>
+  </form>
+</md-card>
+
+
+<md-card *ngIf="completed" class="welcome text-center">
+  <h3>Finished!</h3>
+  <br>
+  <p>
+    Account created!<br>
+    Your address is: <span class="address">{{ accountId }}</span><br>
+    You will be able to vote using this address and a passphrase you have entered in previous step.
+    Do not forget this passphrase!<br>
+    Of course we've saved this address in browser's local storage for your convenience.
+  </p>
+  <br>
+  <a routerLink="/vote" md-raised-button>PROCEED TO VOTING</a>
+</md-card>

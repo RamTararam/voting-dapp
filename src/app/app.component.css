@@ -1,0 +1,12 @@
+md-toolbar {
+  box-shadow: 0 2px 5px 0 rgba(0,0,0,0.26);
+}
+
+.app-toolbar-filler {
+  flex: 1 1 auto;
+}
+
+md-toolbar a {
+  color: inherit;
+  text-decoration: inherit;
+}
