@@ -1,3 +1,29 @@
-<h1>
-  {{title}}
-</h1>
+<md-toolbar color="primary">
+  InspiRUSSIA Voting System
+</md-toolbar>
+<br>
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+      <p *ngFor="let item of projects">
+        {{ item.name }}
+      </p>
+
+    </div>
+    <div class="col-md-4 form">
+      <div class="form-group">
+        <label>Current Account:</label>
+        <select class="form-control" [ngModel]="selectedAccount" (ngModelChange)="onChangeAccount($event)" name="account">
+          <option *ngFor="let item of accounts" [ngValue]="item">
+            {{ item }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Project Name:</label>
+        <input class="form-control" type="text" placeholder="Enter name" #pname>
+      </div>
+      <button md-raised-button (click)="addProject(pname.value)">Add</button>
+    </div>
+  </div>
+</div>

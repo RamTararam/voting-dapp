@@ -4,6 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
+import { MdToolbarModule } from "@angular2-material/toolbar";
+import { MdCardModule } from "@angular2-material/card";
+import { MdButtonModule } from "@angular2-material/button";
+import { MdProgressCircleModule } from "@angular2-material/progress-circle";
 
 @NgModule({
   declarations: [
@@ -12,7 +16,11 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    MdToolbarModule,
+    MdCardModule,
+    MdButtonModule,
+    MdProgressCircleModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
