@@ -1,22 +1,24 @@
 <md-card>
   <md-progress-bar [mode]="progressMode" [value]="queriesCompleted * 100 / queriesCount"></md-progress-bar>
   <br>
-  <table class="table" *ngIf="projects">
-    <thead>
-      <tr>
-        <th></th>
-        <th>Project</th>
-        <th>Votes count</th>
-        <th *ngFor="let item of voteCriteria">{{ item }}</th>
-        <th>Total</th>
+  <div class="table-responsive">
+    <table class="table" *ngIf="projects.length">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Project</th>
+          <th>Votes count</th>
+          <th *ngFor="let item of voteCriteria">{{ item }}</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tr *ngFor="let project of projects; let i = index;">
+        <th>#{{ i + 1 }}</th>
+        <td>{{ project.name }}</td>
+        <td>{{ project.votesCount }}</td>
+        <td *ngFor="let val of project.vote.points">{{ format(val, project.votesCount) }}</td>
+        <td>{{ format(project.rating, 5) }}</td>
       </tr>
-    </thead>
-    <tr *ngFor="let project of projects; let i = index;">
-      <th>#{{ i + 1 }}</th>
-      <td>{{ project.name }}</td>
-      <td>{{ project.votesCount }}</td>
-      <td *ngFor="let val of project.vote.points; let i = index">{{ (val || 0) / (project.votesCount || 1) }}</td>
-      <td>{{ (project.rating || 0) / 5 }}</td>
-    </tr>
-  </table>
+    </table>
+  </div>
 </md-card>

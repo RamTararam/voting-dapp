@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http } from "@angular/http";
 import { Observable, BehaviorSubject, Observer } from "rxjs";
 import { Project, Vote } from "./models";
+import { environment } from '../environments/environment';
 
 
 declare var Web3: any;
@@ -27,8 +28,7 @@ export class ContractService {
   constructor(
     private http: Http
   ) {
-    let rpcURL = 'http://node125670695.northeurope.cloudapp.azure.com:8080';
-    this.web3.setProvider(new this.web3.providers.HttpProvider(rpcURL));
+    this.web3.setProvider(new this.web3.providers.HttpProvider(environment.rpcURL));
     this._accountId = localStorage.getItem('account');
     this.loadContract();
   }
@@ -126,7 +126,8 @@ export class ContractService {
     this.http.get('/contract/ballot.sol').subscribe(response => {
       this.web3.eth.compile.solidity(response.text(), (error, compiled) => {
         this.contract = this.web3.eth.contract(compiled.Ballot.info.abiDefinition)
-          .at("0x93303e4d223c2f7efa73241d082cdf81cd82a8b2");
+          .at(environment.contractAddres);
+        console.log('contract loaded');
         this.contractLoaded.next(true);
 
         window['contract'] = this.contract;
