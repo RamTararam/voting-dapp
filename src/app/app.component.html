@@ -1,5 +1,8 @@
 <md-toolbar color="primary">
-  <a routerLink="/vote">InspiRUSSIA Voting System</a>
+  <div class="logo">
+    <a routerLink="/vote">InspiRUSSIA Voting System</a> <br>
+    <span>by <a href="http://technokratos.com" target="_blank">Technokratos</a></span>
+  </div>
 
   <span class="app-toolbar-filler"></span>
   <a md-button routerLink="/auth">AUTH</a>
@@ -7,7 +10,7 @@
 </md-toolbar>
 <br>
 
-<div class="container-fluid">
+<div class="container-fluid" style="min-height: 100%">
   <toaster-container></toaster-container>
   <router-outlet></router-outlet>
 </div>

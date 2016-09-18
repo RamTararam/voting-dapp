@@ -10,3 +10,11 @@ md-toolbar a {
   color: inherit;
   text-decoration: inherit;
 }
+
+.logo {
+  line-height: 1;
+}
+
+.logo span {
+  font-size: 12px;
+}

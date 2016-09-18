@@ -16,7 +16,12 @@ export class VoteComponent implements OnInit {
   private votesSubmitted = 0;
   private votesToSubmit = 0;
 
-  private selectedAccount: string = null;
+  private _selectedAccount: string = null;
+  private get selectedAccount() { return this._selectedAccount; }
+  private set selectedAccount(newVal: string) {
+    this._selectedAccount = newVal;
+    this.contract.accountId = newVal;
+  }
 
 
   constructor(
@@ -24,7 +29,7 @@ export class VoteComponent implements OnInit {
     private toaster: ToasterService,
   ) {
     this.voteCriteria = this.contract.voteCriteria;
-    this.selectedAccount = this.contract.accountId;
+    this._selectedAccount = this.contract.accountId;
   }
 
   ngOnInit() {
@@ -75,8 +80,8 @@ export class VoteComponent implements OnInit {
       return;
     }
 
+    this.submittingVotes = true;
     this.contract.unlockAccount(passphrase).subscribe(() => {
-      this.submittingVotes = true;
       this.votesToSubmit = completedProjects.length;
       this.votesSubmitted = 0;
 
@@ -92,7 +97,10 @@ export class VoteComponent implements OnInit {
           this.voteFinished();
         });
       }
-    }, error => this.toaster.pop('error', 'Error', error.message));
+    }, error => {
+      this.submittingVotes = false;
+      this.toaster.pop('error', 'Error', error.message);
+    });
   }
 
   private voteFinished() {

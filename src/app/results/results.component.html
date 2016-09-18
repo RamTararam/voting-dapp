@@ -5,19 +5,19 @@
     <table class="table" *ngIf="projects.length">
       <thead>
         <tr>
-          <th></th>
+          <th>#</th>
           <th>Project</th>
-          <th>Votes count</th>
-          <th *ngFor="let item of voteCriteria">{{ item }}</th>
-          <th>Total</th>
+          <th class="text-center total">Total</th>
+          <th class="text-center">Votes</th>
+          <th *ngFor="let item of voteCriteria" class="text-center">{{ item }}</th>
         </tr>
       </thead>
       <tr *ngFor="let project of projects; let i = index;">
-        <th>#{{ i + 1 }}</th>
+        <th>{{ i + 1 }}.</th>
         <td>{{ project.name }}</td>
-        <td>{{ project.votesCount }}</td>
-        <td *ngFor="let val of project.vote.points">{{ format(val, project.votesCount) }}</td>
-        <td>{{ format(project.rating, 5) }}</td>
+        <td class="text-center total">{{ format(project.rating, 5) }}</td>
+        <td class="text-center">{{ project.votesCount }}</td>
+        <td *ngFor="let val of project.vote.points" class="text-center">{{ format(val, project.votesCount) }}</td>
       </tr>
     </table>
   </div>

@@ -6,5 +6,5 @@
 export const environment = {
   production: false,
   rpcURL: 'http://miner.northeurope.cloudapp.azure.com:8080',
-  contractAddres: '0x93303e4d223c2f7efa73241d082cdf81cd82a8b2'
+  contractAddres: '0x390766596fcd9e8fa52695ada33c9af5c8fe8956'
 };
