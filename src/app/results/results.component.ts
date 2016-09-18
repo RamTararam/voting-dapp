@@ -28,9 +28,7 @@ export class ResultsComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('onInit');
     this.contract.getProjects().subscribe(projects => {
-      console.log(projects);
       this.projects = projects;
       for (let project of this.projects) {
         project.vote = {projectId: project.id, points: Array(5)};
@@ -77,7 +75,7 @@ export class ResultsComponent implements OnInit {
   }
 
   private updateAggregateValue(project: Project) {
-    project.rating = project.vote.points.reduce((summ, val) => summ + val / project.votesCount, 0);
+    project.rating = project.vote.points.reduce((summ, val) => summ + val / project.votesCount, 0) || 0;
     this.updateOrdering();
   }
 
