@@ -44,7 +44,7 @@ export class AuthComponent implements OnInit {
 
   createAccount(password: string, confirmedPassword: string) {
     if (password != confirmedPassword) {
-      this.toaster.pop('error', 'Error', 'Passwords does not match!');
+      this.toaster.pop('error', 'Error', 'Passwords do not match!');
       return;
     }
 
@@ -54,8 +54,8 @@ export class AuthComponent implements OnInit {
       this.contract.accountId = result;
       this.checkBalanceAndSaveFbId(password).subscribe(() => {
         this.completed = true;
-      }, error => this.handleError);
-    }, error => this.handleError);
+      }, this.handleError);
+    }, this.handleError);
   }
 
   checkBalanceAndSaveFbId(password: string): Observable<any> {
